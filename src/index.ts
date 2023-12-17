@@ -7,6 +7,11 @@ const app = express();
 
 app
   .get("/", (_req, res) => res.json({ server: "running" }))
+  .get("/down", (_req, res) => {
+    bot.stop("Down bot");
+
+    return res.json({ bot: "down" });
+  })
   .listen(3000, () => {
     console.log("express server started!");
 
