@@ -5,5 +5,5 @@ export const bot = new Telegraf(
 );
 
 bot.start((ctx) => {
-  ctx.reply("Hello, world!");
+  ctx.reply("Добро пожаловать!");
 });

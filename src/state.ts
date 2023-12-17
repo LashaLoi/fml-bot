@@ -1,7 +1,6 @@
 type State = {
   registrationStarted?: boolean;
   state?: string | null;
-
   full_name?: string;
   days?: string;
   city?: string;
@@ -13,6 +12,8 @@ type State = {
   age?: string;
   children?: string;
   phone?: string;
+  q?: string;
+  alergy?: string;
   email?: string;
 };
 

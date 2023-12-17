@@ -12,14 +12,63 @@ bot
     await ctx.reply("Локация: Санаторий Спутник");
     ctx.sendLocation(53.96071014707217, 27.416530229487815);
   })
-  .command("schedule", (ctx) => ctx.reply("расписание"))
+  .command("schedule", (ctx) =>
+    ctx.reply(
+      "Выберите день",
+      Markup.keyboard([["2 февраля, пт", "3 февраля, сб"]])
+    )
+  )
+  .hears("2 февраля, пт", async (ctx) => {
+    await ctx.reply("Расписание на 2 февраля, пт", Markup.removeKeyboard());
+    ctx.reply(
+      `<b>10:00</b> - регистрация, расселение
+<b>11:25</b> - обратный отсчет
+<b>11:30</b> - Сессия 1
+<b>13:30</b> - обед
+<b>14:30</b> - семинары:
+<b>14:35</b> - extra talk
+<b>15:00</b> - семинар
+<b>15:35</b> - extra talk
+<b>16:00</b> - семинар
+<b>16:30</b> - кофе-пауза
+<b>17:00</b> - topic talks
+<b>18:00</b> - ужин
+<b>19:00</b> - worship party`,
+      {
+        parse_mode: "HTML",
+      }
+    );
+  })
+  .hears("3 февраля, сб", async (ctx) => {
+    await ctx.reply("Расписание на 3 февраля, сб", Markup.removeKeyboard());
+    await ctx.reply(
+      `8:00 - молитва
+<b>9:00</b> - завтрак
+<b>10:00</b> - Cессия 2
+<b>11:30</b> - кофе-пауза
+<b>12:00</b> - extra talk
+<b>12:30</b> - семинар
+<b>13:00</b> - extra talk
+<b>13:30</b> - обед
+<b>14:30</b> - topic talks:
+<b>15:30</b> - кофе-пауза
+<b>16:00</b> - Сессия 3
+<b>17:30</b> - блок свидетельств
+<b>18:00</b> - время на анкету (обратная связь)
+<b>18:30</b> - ужин
+<b>19:30</b> - отъезд`,
+      {
+        parse_mode: "HTML",
+      }
+    );
+  })
   .command("help", (ctx) =>
     ctx.reply("Все еще есть вопросы?\nНапиши нам - fml@ywam.by")
   )
   .command("registration", (ctx) =>
     ctx.reply(
-      "Регистрация начата",
-      Markup.keyboard(["Начать регистарцию?", "Выйти"])
+      "Регистрация ФМЛ / EXTRA",
+      Markup.keyboard([["Начать регистарцию?", "Выйти"]])
     )
   )
   .hears("Начать регистарцию?", (ctx) => {
@@ -28,11 +77,17 @@ bot
       state: "NAME",
     });
 
-    ctx.reply("1️⃣ Введите ваше ФИО", Markup.removeKeyboard());
+    ctx.reply("1) Введите ваше ФИО", Markup.removeKeyboard());
   })
   .hears("Выйти", (ctx) => {
     ctx.reply("Выход выполнен", Markup.removeKeyboard());
   })
+  .hears("Попробую позже", (ctx) =>
+    ctx.reply(
+      "Если не получается зарегестрироваться, напишите https://t.me/SideswipeLoi",
+      Markup.removeKeyboard()
+    )
+  )
   .on("message", (ctx) => {
     const chatId = ctx.chat.id;
     const message = (ctx.update.message as { text: string }).text;
@@ -49,8 +104,8 @@ bot
         });
 
         ctx.reply(
-          "2️⃣ Выберите дни?",
-          Markup.keyboard(["2 Февраля", "3 Февраля", "Оба дня"])
+          "2) Выберите дни?",
+          Markup.keyboard([["2 Февраля", "3 Февраля"], ["Оба дня"]])
         );
         break;
       case "DAYS":
@@ -59,7 +114,7 @@ bot
           days: message,
         });
 
-        ctx.reply("3️⃣ Из какого вы города?", Markup.removeKeyboard());
+        ctx.reply("3) Из какого вы города?", Markup.removeKeyboard());
         break;
       case "CITY":
         setState(chatId, {
@@ -67,7 +122,7 @@ bot
           city: message,
         });
 
-        ctx.reply("4️⃣ Из какого вы церкви?");
+        ctx.reply("4) Из какого вы церкви?");
         break;
       case "CHURCH":
         setState(chatId, {
@@ -75,7 +130,7 @@ bot
           church: message,
         });
 
-        ctx.reply("5️⃣ Укажите ФИО пастора");
+        ctx.reply("5) Укажите ФИО пастора");
         break;
       case "PASTOR":
         setState(chatId, {
@@ -83,7 +138,7 @@ bot
           pastor: message,
         });
 
-        ctx.reply("6️⃣ Укажите вашу ответственность в церкви");
+        ctx.reply("6) Укажите вашу ответственность в церкви");
         break;
       case "MINISTRY":
         setState(chatId, {
@@ -91,7 +146,7 @@ bot
           ministry: message,
         });
 
-        ctx.reply("7️⃣ Напишите ваши ожидания");
+        ctx.reply("7) Напишите ваши ожидания");
         break;
       case "EXPECT":
         setState(chatId, {
@@ -100,8 +155,8 @@ bot
         });
 
         ctx.reply(
-          "8️⃣ Нужна ли вам помощь с транспортом?",
-          Markup.keyboard(["Да", "Нет"])
+          "8) Нужна ли вам помощь с транспортом?",
+          Markup.keyboard([["Да", "Нет"]])
         );
         break;
       case "TRANSPORT":
@@ -111,7 +166,7 @@ bot
         });
 
         ctx.reply(
-          "9️⃣ Укажите вашу дату рождения (14/10/1998)",
+          "9) Укажите вашу дату рождения (14/10/1998)",
           Markup.removeKeyboard()
         );
         break;
@@ -122,7 +177,7 @@ bot
         });
 
         ctx.reply(
-          "🔟 Дети, которые поедут с вами на ФМЛ (ФИО, возраст).\nЕсли нет детей, просто введите `-`"
+          "10) Дети, которые поедут с вами на ФМЛ (ФИО, возраст). Если нет детей, просто введите `-`"
         );
         break;
       case "CHILDREN":
@@ -131,17 +186,23 @@ bot
           children: message,
         });
 
-        ctx.reply("1️⃣1️⃣ Ваш телефон.\nПример: +375 (29/33) 123 45 67");
+        ctx.reply("11) Ваш телефон. Пример: +375 (29/33) 123 45 67");
         break;
       case "PHONE":
         setState(chatId, {
-          state: "EMAIL",
+          state: "Q",
           phone: message,
         });
 
-        ctx.reply(
-          "1️⃣2️⃣ Есть ли у вас вопросы?\nВведите `-` если нет никаких вопросов"
-        );
+        ctx.reply("12) Есть ли у вас вопросы? Если нет, просто введите `-`");
+        break;
+      case "Q":
+        setState(chatId, {
+          state: "EMAIL",
+          q: message,
+        });
+
+        ctx.reply("13) Ваш Email");
         break;
       case "EMAIL":
         setState(chatId, {
@@ -149,31 +210,49 @@ bot
           email: message,
         });
 
-        ctx.reply("1️⃣3️⃣ Ваш e-mail");
+        ctx.reply("14) Есть ли у вас аллергия? (так же о детях)");
         break;
       case "END":
         setState(chatId, {
           state: null,
           registrationStarted: false,
-          email: message,
+          alergy: message,
         });
+
+        const { first_name, last_name, username } = ctx.update.message.from;
+        const state = getState(chatId);
 
         axios
           .post(
             "https://script.google.com/macros/s/AKfycby0BcWVC7xR7DcJGzMNPT6GlVbBlXsf7llnl1ntYRJgp5eJ1DNepELamphGhzqIUWkS/exec",
             {
-              ...getState(chatId),
-              telegram: ctx.update.message.from.username ?? "-",
-              registeredBy:
-                ctx.update.message.from.first_name ??
-                "-" + " " + ctx.update.message.from.last_name ??
-                "-",
+              ...state,
+              telegram: username ?? "-",
+              registeredBy: `${first_name ?? "-"} ${last_name ?? "-"}`,
+              chatId: ctx.update.message.chat.id,
+              date: Date.now(),
+              id: ctx.update.message.from.id,
             }
           )
-          .then(() => ctx.reply("Регистрация прошла успешно! 👍"))
-          .catch(() => ctx.reply("Что-то пошло не так, попробуйте позже 😣"));
+          .then(() => {
+            ctx.reply(
+              "Регистрация прошла успешно! 👍",
+              Markup.removeKeyboard()
+            );
+            deleteState(chatId);
+          })
+          .catch(() => {
+            ctx.reply(
+              "Что-то пошло не так, попробуйте позже 😣\nПопробовать снова?",
+              Markup.keyboard(["Да", "Попробую позже"])
+            );
 
-        deleteState(chatId);
+            setState(chatId, {
+              state: "END",
+              registrationStarted: true,
+            });
+          });
+
         break;
     }
   });
