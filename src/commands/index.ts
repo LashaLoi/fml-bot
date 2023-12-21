@@ -71,7 +71,7 @@ bot
       Markup.keyboard([["Начать регистарцию?", "Выйти"]])
     )
   )
-  .hears("Начать регистарцию?", (ctx) => {
+  .hears("Начать регистрацию?", (ctx) => {
     setState(ctx.chat.id, {
       registrationStarted: true,
       state: "NAME",
