@@ -68,7 +68,7 @@ bot
   .command("registration", (ctx) =>
     ctx.reply(
       "Регистрация ФМЛ / EXTRA",
-      Markup.keyboard([["Начать регистарцию?", "Выйти"]])
+      Markup.keyboard([["Начать регистрацию?", "Выйти"]])
     )
   )
   .hears("Начать регистрацию?", (ctx) => {
