@@ -5,5 +5,7 @@ export const bot = new Telegraf(
 );
 
 bot.start((ctx) => {
-  ctx.reply("Добро пожаловать!");
+  ctx.reply("Добро пожаловать! Для выбора действия нажмите <b>Меню</b>", {
+    parse_mode: "HTML",
+  });
 });
