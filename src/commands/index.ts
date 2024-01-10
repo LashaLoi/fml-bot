@@ -41,7 +41,7 @@ bot
   .hears("3 февраля, сб", async (ctx) => {
     await ctx.reply("Расписание на 3 февраля, сб", Markup.removeKeyboard());
     await ctx.reply(
-      `8:00 - молитва
+      `8:00 - утренний encounter
 <b>9:00</b> - завтрак
 <b>10:00</b> - сессия 2
 <b>11:30</b> - кофе-пауза
