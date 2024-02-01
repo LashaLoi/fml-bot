@@ -62,196 +62,196 @@ bot
   })
   .command("help", (ctx) =>
     ctx.reply("Все еще есть вопросы? Напиши нам - fml@ywam.by")
-  )
-  .command("registration", (ctx) =>
-    ctx.reply(
-      "Регистрация ФМЛ / EXTRA",
-      Markup.keyboard([["Начать регистрацию?", "Выйти"]])
-    )
-  )
-  .hears("Начать регистрацию?", (ctx) => {
-    setState(ctx.chat.id, {
-      registrationStarted: true,
-      state: "NAME",
-    });
+  );
+// .command("registration", (ctx) =>
+//   ctx.reply(
+//     "Регистрация ФМЛ / EXTRA",
+//     Markup.keyboard([["Начать регистрацию?", "Выйти"]])
+//   )
+// )
+// .hears("Начать регистрацию?", (ctx) => {
+//   setState(ctx.chat.id, {
+//     registrationStarted: true,
+//     state: "NAME",
+//   });
 
-    ctx.reply("1) Введите ваше ФИО", Markup.removeKeyboard());
-  })
-  .hears("Выйти", (ctx) => {
-    ctx.reply("✅ Выход выполнен", Markup.removeKeyboard());
-  })
-  .hears("Попробую позже", (ctx) =>
-    ctx.reply(
-      "Если не получается зарегестрироваться, напишите https://t.me/SideswipeLoi",
-      Markup.removeKeyboard()
-    )
-  )
-  .on("message", (ctx) => {
-    const chatId = ctx.chat.id;
-    const message = (ctx.update.message as { text: string }).text;
+//   ctx.reply("1) Введите ваше ФИО", Markup.removeKeyboard());
+// })
+// .hears("Выйти", (ctx) => {
+//   ctx.reply("✅ Выход выполнен", Markup.removeKeyboard());
+// })
+// .hears("Попробую позже", (ctx) =>
+//   ctx.reply(
+//     "Если не получается зарегестрироваться, напишите https://t.me/SideswipeLoi",
+//     Markup.removeKeyboard()
+//   )
+// )
+// .on("message", (ctx) => {
+//   const chatId = ctx.chat.id;
+//   const message = (ctx.update.message as { text: string }).text;
 
-    const data = getState(chatId);
+//   const data = getState(chatId);
 
-    if (!data) return;
+//   if (!data) return;
 
-    switch (data.state) {
-      case "NAME":
-        setState(chatId, {
-          state: "DAYS",
-          full_name: message,
-        });
+//   switch (data.state) {
+//     case "NAME":
+//       setState(chatId, {
+//         state: "DAYS",
+//         full_name: message,
+//       });
 
-        ctx.reply(
-          "2) Выберите дни?",
-          Markup.keyboard([["2 Февраля", "3 Февраля"], ["Оба дня"]])
-        );
-        break;
-      case "DAYS":
-        setState(chatId, {
-          state: "CITY",
-          days: message,
-        });
+//       ctx.reply(
+//         "2) Выберите дни?",
+//         Markup.keyboard([["2 Февраля", "3 Февраля"], ["Оба дня"]])
+//       );
+//       break;
+//     case "DAYS":
+//       setState(chatId, {
+//         state: "CITY",
+//         days: message,
+//       });
 
-        ctx.reply("3) Из какого вы города?", Markup.removeKeyboard());
-        break;
-      case "CITY":
-        setState(chatId, {
-          state: "CHURCH",
-          city: message,
-        });
+//       ctx.reply("3) Из какого вы города?", Markup.removeKeyboard());
+//       break;
+//     case "CITY":
+//       setState(chatId, {
+//         state: "CHURCH",
+//         city: message,
+//       });
 
-        ctx.reply("4) Из какой вы церкви?");
-        break;
-      case "CHURCH":
-        setState(chatId, {
-          state: "PASTOR",
-          church: message,
-        });
+//       ctx.reply("4) Из какой вы церкви?");
+//       break;
+//     case "CHURCH":
+//       setState(chatId, {
+//         state: "PASTOR",
+//         church: message,
+//       });
 
-        ctx.reply("5) Укажите ФИО пастора");
-        break;
-      case "PASTOR":
-        setState(chatId, {
-          state: "MINISTRY",
-          pastor: message,
-        });
+//       ctx.reply("5) Укажите ФИО пастора");
+//       break;
+//     case "PASTOR":
+//       setState(chatId, {
+//         state: "MINISTRY",
+//         pastor: message,
+//       });
 
-        ctx.reply("6) Укажите вашу ответственность в церкви");
-        break;
-      case "MINISTRY":
-        setState(chatId, {
-          state: "EXPECT",
-          ministry: message,
-        });
+//       ctx.reply("6) Укажите вашу ответственность в церкви");
+//       break;
+//     case "MINISTRY":
+//       setState(chatId, {
+//         state: "EXPECT",
+//         ministry: message,
+//       });
 
-        ctx.reply("7) Напишите ваши ожидания");
-        break;
-      case "EXPECT":
-        setState(chatId, {
-          state: "TRANSPORT",
-          expect: message,
-        });
+//       ctx.reply("7) Напишите ваши ожидания");
+//       break;
+//     case "EXPECT":
+//       setState(chatId, {
+//         state: "TRANSPORT",
+//         expect: message,
+//       });
 
-        ctx.reply(
-          "8) Нужна ли вам помощь с транспортом?",
-          Markup.keyboard([["Да", "Нет"]])
-        );
-        break;
-      case "TRANSPORT":
-        setState(chatId, {
-          state: "AGE",
-          transport: message,
-        });
+//       ctx.reply(
+//         "8) Нужна ли вам помощь с транспортом?",
+//         Markup.keyboard([["Да", "Нет"]])
+//       );
+//       break;
+//     case "TRANSPORT":
+//       setState(chatId, {
+//         state: "AGE",
+//         transport: message,
+//       });
 
-        ctx.reply(
-          "9) Укажите вашу дату рождения (14/10/1998)",
-          Markup.removeKeyboard()
-        );
-        break;
-      case "AGE":
-        setState(chatId, {
-          state: "CHILDREN",
-          age: message,
-        });
+//       ctx.reply(
+//         "9) Укажите вашу дату рождения (14/10/1998)",
+//         Markup.removeKeyboard()
+//       );
+//       break;
+//     case "AGE":
+//       setState(chatId, {
+//         state: "CHILDREN",
+//         age: message,
+//       });
 
-        ctx.reply(
-          "10) Дети, которые поедут с вами на ФМЛ (ФИО, возраст). Если нет детей, просто введите `-`"
-        );
-        break;
-      case "CHILDREN":
-        setState(chatId, {
-          state: "PHONE",
-          children: message,
-        });
+//       ctx.reply(
+//         "10) Дети, которые поедут с вами на ФМЛ (ФИО, возраст). Если нет детей, просто введите `-`"
+//       );
+//       break;
+//     case "CHILDREN":
+//       setState(chatId, {
+//         state: "PHONE",
+//         children: message,
+//       });
 
-        ctx.reply("11) Ваш телефон. Пример: +375 (29/33) 123 45 67");
-        break;
-      case "PHONE":
-        setState(chatId, {
-          state: "Q",
-          phone: message,
-        });
+//       ctx.reply("11) Ваш телефон. Пример: +375 (29/33) 123 45 67");
+//       break;
+//     case "PHONE":
+//       setState(chatId, {
+//         state: "Q",
+//         phone: message,
+//       });
 
-        ctx.reply("12) Есть ли у вас вопросы? Если нет, просто введите `-`");
-        break;
-      case "Q":
-        setState(chatId, {
-          state: "EMAIL",
-          q: message,
-        });
+//       ctx.reply("12) Есть ли у вас вопросы? Если нет, просто введите `-`");
+//       break;
+//     case "Q":
+//       setState(chatId, {
+//         state: "EMAIL",
+//         q: message,
+//       });
 
-        ctx.reply("13) Ваш Email");
-        break;
-      case "EMAIL":
-        setState(chatId, {
-          state: "END",
-          email: message,
-        });
+//       ctx.reply("13) Ваш Email");
+//       break;
+//     case "EMAIL":
+//       setState(chatId, {
+//         state: "END",
+//         email: message,
+//       });
 
-        ctx.reply("14) Есть ли у вас аллергия? (так же о детях)");
-        break;
-      case "END":
-        setState(chatId, {
-          state: null,
-          registrationStarted: false,
-          alergy: message,
-        });
+//       ctx.reply("14) Есть ли у вас аллергия? (так же о детях)");
+//       break;
+//     case "END":
+//       setState(chatId, {
+//         state: null,
+//         registrationStarted: false,
+//         alergy: message,
+//       });
 
-        const { first_name, last_name, username } = ctx.update.message.from;
-        const state = getState(chatId);
+//       const { first_name, last_name, username } = ctx.update.message.from;
+//       const state = getState(chatId);
 
-        axios
-          .post(
-            "https://script.google.com/macros/s/AKfycby0BcWVC7xR7DcJGzMNPT6GlVbBlXsf7llnl1ntYRJgp5eJ1DNepELamphGhzqIUWkS/exec",
-            {
-              ...state,
-              telegram: username ?? "-",
-              registeredBy: `${first_name ?? "-"} ${last_name ?? "-"}`,
-              chatId: ctx.update.message.chat.id,
-              date: Date.now(),
-              id: ctx.update.message.from.id,
-            }
-          )
-          .then(() => {
-            ctx.reply(
-              `✅ Спасибо, что вы ответили на все вопросы. Регистрация считается окончательной после внесения пожертвования. Сумма пожертвования за участие одного взрослого: 140 р при оплате до 20.01 или 150р с 21.01. Крайний срок внесения пожертвования - 1.02.2024.\n\nОплату можно передать одному из организаторов ФМЛ или Александру Байгазину\nТГ: @Ailuropoda88\n+375 (33) 643-66-99\n\nПодробную информацию о программе, организации транспорта, список вещей с собой и другое мы будем публиковать в нашем ТГ канале https://t.me/fmlby\nПодписывайтесь 🔔\n\nЖдём встречи 2-3 февраля\n📍санаторий Спутник\nExtra ФМЛ’24 🔥`,
-              Markup.removeKeyboard()
-            );
+//       axios
+//         .post(
+//           "https://script.google.com/macros/s/AKfycby0BcWVC7xR7DcJGzMNPT6GlVbBlXsf7llnl1ntYRJgp5eJ1DNepELamphGhzqIUWkS/exec",
+//           {
+//             ...state,
+//             telegram: username ?? "-",
+//             registeredBy: `${first_name ?? "-"} ${last_name ?? "-"}`,
+//             chatId: ctx.update.message.chat.id,
+//             date: Date.now(),
+//             id: ctx.update.message.from.id,
+//           }
+//         )
+//         .then(() => {
+//           ctx.reply(
+//             `✅ Спасибо, что вы ответили на все вопросы. Регистрация считается окончательной после внесения пожертвования. Сумма пожертвования за участие одного взрослого: 140 р при оплате до 20.01 или 150р с 21.01. Крайний срок внесения пожертвования - 1.02.2024.\n\nОплату можно передать одному из организаторов ФМЛ или Александру Байгазину\nТГ: @Ailuropoda88\n+375 (33) 643-66-99\n\nПодробную информацию о программе, организации транспорта, список вещей с собой и другое мы будем публиковать в нашем ТГ канале https://t.me/fmlby\nПодписывайтесь 🔔\n\nЖдём встречи 2-3 февраля\n📍санаторий Спутник\nExtra ФМЛ’24 🔥`,
+//             Markup.removeKeyboard()
+//           );
 
-            deleteState(chatId);
-          })
-          .catch(() => {
-            ctx.reply(
-              "❌ Что-то пошло не так, попробуйте позже 😣\nПопробовать снова?",
-              Markup.keyboard([["Да", "Попробую позже"]])
-            );
+//           deleteState(chatId);
+//         })
+//         .catch(() => {
+//           ctx.reply(
+//             "❌ Что-то пошло не так, попробуйте позже 😣\nПопробовать снова?",
+//             Markup.keyboard([["Да", "Попробую позже"]])
+//           );
 
-            setState(chatId, {
-              state: "END",
-              registrationStarted: true,
-            });
-          });
+//           setState(chatId, {
+//             state: "END",
+//             registrationStarted: true,
+//           });
+//         });
 
-        break;
-    }
-  });
+//       break;
+//   }
+// });
