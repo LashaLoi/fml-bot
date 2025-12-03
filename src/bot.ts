@@ -1,11 +1,15 @@
 import { Telegraf } from "telegraf";
 
 export const bot = new Telegraf(
-  "6500336866:AAEAmq7dc8zGfqCwY7SVt98pvWDna0y7AnA"
+  "8085957702:AAFxAul93965m0ymrdwbUyNbqOkWnCtFOjk"
 );
 
 bot.start((ctx) => {
-  ctx.reply("Добро пожаловать! Для выбора действия нажмите <b>Меню</b>", {
-    parse_mode: "HTML",
-  });
+  ctx.reply(
+    "👋 Привет! Добро пожаловать в ФМЛ x10 2026!\n\n" +
+      "Нажмите <b>Регистрация</b> или используйте другие команды бота.",
+    {
+      parse_mode: "HTML",
+    }
+  );
 });

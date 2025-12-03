@@ -1,7 +1,5 @@
 import { Markup } from "telegraf";
-import axios from "axios";
 
-import { getState, setState, deleteState } from "../state";
 import { bot } from "../bot";
 
 bot
@@ -9,60 +7,63 @@ bot
     ctx.reply("Наш сайт: https://fml.ywam.by/");
   })
   .command("location", async (ctx) => {
-    await ctx.reply("Локация: Санаторий Спутник");
+    await ctx.reply("г. Минск, ул. Спутник, д. 1");
     ctx.sendLocation(53.96071014707217, 27.416530229487815);
   })
-  .command("schedule", (ctx) =>
-    ctx.reply(
-      "Выберите день",
-      Markup.keyboard([["2 февраля, пт", "3 февраля, сб"]])
-    )
-  )
-  .hears("2 февраля, пт", async (ctx) => {
-    await ctx.reply("Расписание на 2 февраля, пт", Markup.removeKeyboard());
-    ctx.reply(
-      `<b>10:00</b> - регистрация, расселение
-<b>11:30</b> - сессия 1
-<b>13:30</b> - обед
-<b>14:30</b> - extra talk
-<b>15:00</b> - семинар
-<b>15:35</b> - extra talk
-<b>16:00</b> - семинар
-<b>16:30</b> - кофе-пауза
-<b>16:30</b> - кофе-пауза
-<b>17:00</b> - topic talks
-<b>18:00</b> - ужин
-<b>19:00</b> - worship party`,
-      {
-        parse_mode: "HTML",
-      }
-    );
+  .command("schedule", (ctx) => {
+    ctx.reply("Расписание еще в разработке");
+
+    // return ctx.reply(
+    //   "Выберите день",
+    //   Markup.keyboard([["2 февраля, пт", "3 февраля, сб"]])
+    // );
   })
-  .hears("3 февраля, сб", async (ctx) => {
-    await ctx.reply("Расписание на 3 февраля, сб", Markup.removeKeyboard());
-    await ctx.reply(
-      `8:00 - утренний encounter
-<b>9:00</b> - завтрак
-<b>10:00</b> - сессия 2
-<b>11:30</b> - кофе-пауза
-<b>12:00</b> - extra talk
-<b>12:30</b> - семинар
-<b>13:00</b> - extra talk
-<b>13:30</b> - обед
-<b>14:30</b> - topic talks:
-<b>15:30</b> - кофе-пауза
-<b>16:00</b> - сессия 3
-<b>17:30</b> - блок свидетельств
-<b>18:30</b> - ужин
-<b>19:30</b> - отъезд`,
-      {
-        parse_mode: "HTML",
-      }
-    );
-  })
+  //   .hears("2 февраля, пт", async (ctx) => {
+  //     await ctx.reply("Расписание на 2 февраля, пт", Markup.removeKeyboard());
+  //     ctx.reply(
+  //       `<b>10:00</b> - регистрация, расселение
+  // <b>11:30</b> - сессия 1
+  // <b>13:30</b> - обед
+  // <b>14:30</b> - extra talk
+  // <b>15:00</b> - семинар
+  // <b>15:35</b> - extra talk
+  // <b>16:00</b> - семинар
+  // <b>16:30</b> - кофе-пауза
+  // <b>16:30</b> - кофе-пауза
+  // <b>17:00</b> - topic talks
+  // <b>18:00</b> - ужин
+  // <b>19:00</b> - worship party`,
+  //       {
+  //         parse_mode: "HTML",
+  //       }
+  //     );
+  //   })
+  //   .hears("3 февраля, сб", async (ctx) => {
+  //     await ctx.reply("Расписание на 3 февраля, сб", Markup.removeKeyboard());
+  //     await ctx.reply(
+  //       `8:00 - утренний encounter
+  // <b>9:00</b> - завтрак
+  // <b>10:00</b> - сессия 2
+  // <b>11:30</b> - кофе-пауза
+  // <b>12:00</b> - extra talk
+  // <b>12:30</b> - семинар
+  // <b>13:00</b> - extra talk
+  // <b>13:30</b> - обед
+  // <b>14:30</b> - topic talks:
+  // <b>15:30</b> - кофе-пауза
+  // <b>16:00</b> - сессия 3
+  // <b>17:30</b> - блок свидетельств
+  // <b>18:30</b> - ужин
+  // <b>19:30</b> - отъезд`,
+  //       {
+  //         parse_mode: "HTML",
+  //       }
+  //     );
+  //   })
   .command("help", (ctx) =>
     ctx.reply("Все еще есть вопросы? Напиши нам - fml@ywam.by")
   );
+<<<<<<< Updated upstream
 // .command("registration", (ctx) =>
 //   ctx.reply(
 //     "Регистрация ФМЛ / EXTRA",
@@ -255,3 +256,5 @@ bot
 //       break;
 //   }
 // });
+=======
+>>>>>>> Stashed changes
